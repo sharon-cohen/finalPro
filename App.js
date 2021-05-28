@@ -1,21 +1,88 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { Provider } from 'react-redux';
+import { store } from './src/redux/store';
+import { NavigationContainer } from '@react-navigation/native';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import  HomePage  from './src/pages/home/HomePage';
+import  {ProductPage}  from './src/pages/product/ProductPage';
+import  {ProfilePage}  from './src/pages/profile/ProfilePage';
+import  {SearchPage}  from './src/pages/search/SearchPage';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+const Tab = createMaterialBottomTabNavigator();
 
-export default function App() {
+function MyTabs() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Tab.Navigator
+      initialRouteName="Home"
+      activeColor="#e91e63"
+      labelStyle={{ fontSize: 12 }}
+      style={{ backgroundColor: 'tomato' }}
+    >
+     
+      <Tab.Screen
+        name="Home"
+        component={HomePage}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="home" color={color} size={26} />
+          ),
+        }}
+      />
+       <Tab.Screen
+        name="Product"
+        component={ProductPage}
+        options={{
+          tabBarLabel: 'cart',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="cart" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfilePage}
+        options={{
+          tabBarLabel: 'Profile',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="account" color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Search"
+        component={SearchPage}
+        options={{
+          tabBarLabel: 'Search',
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="card-search" color={color} size={26} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
   );
 }
 
+export default function App() {
+  return (
+    <Provider store={store}>
+        <NavigationContainer>
+      <MyTabs />
+    </NavigationContainer>
+
+    </Provider>
+  );
+}
 const styles = StyleSheet.create({
+  header: {
+    backgroundColor: '#ff7700',
+    height: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerText: { marginTop: 30, fontSize: 20, fontWeight: 'bold' },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
