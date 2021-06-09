@@ -9,6 +9,7 @@ import  {ProductPage}  from './src/pages/product/ProductPage';
 import  {ProfilePage}  from './src/pages/profile/ProfilePage';
 import  {SearchPage}  from './src/pages/search/SearchPage';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { HomeStackScreen } from './src/pages/home/componemt/HomeStackScreen';
 const Tab = createMaterialBottomTabNavigator();
 
 function MyTabs() {
@@ -21,8 +22,8 @@ function MyTabs() {
     >
      
       <Tab.Screen
-        name="Home"
-        component={HomePage}
+        name="HomeStackScreen"
+        component={HomeStackScreen }
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({ color }) => (
@@ -30,16 +31,7 @@ function MyTabs() {
           ),
         }}
       />
-       <Tab.Screen
-        name="Product"
-        component={ProductPage}
-        options={{
-          tabBarLabel: 'cart',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="cart" color={color} size={26} />
-          ),
-        }}
-      />
+      
       <Tab.Screen
         name="Profile"
         component={ProfilePage}
@@ -54,6 +46,7 @@ function MyTabs() {
         name="Search"
         component={SearchPage}
         options={{
+          tabBarVisible: true,
           tabBarLabel: 'Search',
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="card-search" color={color} size={26} />
@@ -68,7 +61,8 @@ export default function App() {
   return (
     <Provider store={store}>
         <NavigationContainer>
-      <MyTabs />
+        <MyTabs/>
+      
     </NavigationContainer>
 
     </Provider>

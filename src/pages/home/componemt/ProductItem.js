@@ -2,22 +2,30 @@ import React from "react";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Card, Divider } from 'react-native-elements';
 
-
+import { connect } from 'react-redux';
+import { selectedProduct } from "../../../redux/SelectedProduct/SelectedProductActions";
 import {
+	TouchableOpacity,
 	Dimensions ,
 	Image,
 	View,
-	Text,
+	Text,	
   StyleSheet,
  
 } from "react-native";
 
 const windowHeight = Dimensions.get('window').width;
 const heightImage = (0.4)*windowHeight*(3/4);
-const ProductItem = ({item,isHot,isItemsCategory}) => {
+const mapDispatchToProps = (dispatch) => {
+	return { 
+	 chooseProduct:(product)=>dispatch(selectedProduct(product))
+  };
+  }
+const ProductItem = ({item,isHot,isItemsCategory,chooseProduct,navigation}) => {
   return (
    
-<View >
+<TouchableOpacity
+onPress={() => navigation.navigate('Product')}>
 <Card containerStyle={{ backgroundColor: '#2089dc',
 	  width: isHot?"100%":windowHeight*0.4,
 	 margin:0,
@@ -36,11 +44,13 @@ const ProductItem = ({item,isHot,isItemsCategory}) => {
 			  <Text>{item.name}</Text>
 			 
             </Card>
-			</View>
+</TouchableOpacity>
   );
 };
 
-export default ProductItem;
+export default connect(
+	mapDispatchToProps
+  )(ProductItem)
 
 const styles = StyleSheet.create({
 	mainContainer: {

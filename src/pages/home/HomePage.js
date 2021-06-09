@@ -71,7 +71,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 }
 
- const HomePage = ({watchPersonData,personData,initdata,setCategory,theCategory}) => {
+ const HomePage = ({watchPersonData,personData,initdata,setCategory,theCategory,navigation}) => {
 	useEffect(() => {
 		
 		watchPersonData()
@@ -115,9 +115,9 @@ const mapDispatchToProps = (dispatch) => {
 	  {theCategory=="מומלצים" ? 
 	  listItemSection.map((sec) =>
               <View style={styles.productSection} key={sec.sectionName}>
-                <ListSection nameSection={sec.sectionName} listItems={personData}/>
+                <ListSection nameSection={sec.sectionName} listItems={personData} navigation={navigation}/>
               </View>) : 
-			  <ListItemsCategory listItems={personData}/>}
+			  <ListItemsCategory listItems={personData} navigation={navigation}/>}
 
 	  
 	  

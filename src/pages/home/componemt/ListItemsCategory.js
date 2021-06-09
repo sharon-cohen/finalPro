@@ -7,12 +7,12 @@ import {
   StyleSheet,
   SafeAreaView
 } from "react-native";
-const ListItemsCategory = ({listItems}) => {
+const ListItemsCategory = ({listItems,navigation}) => {
 	return(
 <SafeAreaView style={styles.feed}>
 	{listItems.map((pro) =>
               <View style={styles.productSection} key={pro.name}>
-                <ProductItem item={pro} isHot={false} isItemsCategory={true}/>
+                <ProductItem item={pro} isHot={false} isItemsCategory={true} navigation={navigation}/>
               </View>)}
  </SafeAreaView>
 

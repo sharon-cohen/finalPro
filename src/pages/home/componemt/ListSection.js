@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import ProductItem from "./ProductItem";
 
-const ListSection = ({nameSection,listItems}) => {
+const ListSection = ({nameSection,listItems,navigation}) => {
 	
 	
 	
@@ -27,7 +27,7 @@ const ListSection = ({nameSection,listItems}) => {
 		  keyExtractor={(item) => item.name}
 		  horizontal = { true }
 		  renderItem={({ item }) => (
-		   <ProductItem item={item} isHot={false} isItemsCategory={true}/>
+		   <ProductItem item={item} isHot={false} isItemsCategory={true} navigation={navigation}/>
 		  )}
 		/>
 	</View>
