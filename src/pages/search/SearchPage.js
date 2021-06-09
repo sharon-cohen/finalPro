@@ -19,7 +19,8 @@
   
 	useEffect(() => {
 		
-		console.log(personData.personData)
+		console.log("sharona")
+		console.log(personData)
 		setMasterDataSource(personData.personData)
 	}, []);
   
