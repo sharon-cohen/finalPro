@@ -13,12 +13,13 @@ import {
 
 
 const CategoryItem = ({item}) => {
-  return (
+
+	return (
    
 <Card containerStyle={styles.card}>
-              <TouchableOpacity>
-                <Text>fdf</Text>
-              </TouchableOpacity>
+              
+                <Text>{item.category}</Text>
+             
             </Card>
   
   );

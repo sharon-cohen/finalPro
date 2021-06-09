@@ -1,44 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import {  Dimensions ,View,ScrollView, Text, FlatList, StyleSheet,TouchableOpacity,SafeAreaView} from 'react-native';
 import PropTypes from 'prop-types';
+import ListItemsCategory from './componemt/ListItemsCategory';
 import { connect } from 'react-redux';
 import { watchPersonData } from '../../redux/product/productActions';
 import { initdata } from '../../redux/product/productActions';
+import { selectedCategory } from '../../redux/category/categoryActions';
 import { createPortal } from 'react-dom';
 import Header from '../../components/Header' 
 import CategoryItem from './componemt/CategoryItem';
 import ProductItem from './componemt/ProductItem';
-import { listItemSection } from './static/ListSectionItem';
+import { listItemSection,listItemCategory } from './static/ListSectionItem';
 import ListSection from './componemt/ListSection';
-const listCategory=[ {
-	image:
-	  'https://images.unsplash.com/photo-1567226475328-9d6baaf565cf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60',
-	desc: 'Silent Waters in the mountains in midst of Himilayas',
-  },
-  {
-	image:
-	  'https://images.unsplash.com/photo-1455620611406-966ca6889d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1130&q=80',
-	desc:
-	  'Red fort in India New Delhi is a magnificient masterpeiece of humans',
-  },
-  {
-	image:
-	  'https://images.unsplash.com/photo-1477587458883-47145ed94245?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
-	desc:
-	  'Sample Description below the image for representation purpose only',
-  },
-  {
-	image:
-	  'https://images.unsplash.com/photo-1568700942090-19dc36fab0c4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80',
-	desc:
-	  'Sample Description below the image for representation purpose only',
-  },
-  {
-	image:
-	  'https://images.unsplash.com/photo-1584271854089-9bb3e5168e32?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80',
-	desc:
-	  'Sample Description below the image for representation purpose only',
-  },]
+
   const windowHeight = Dimensions.get('window').height;
 
   const styles = StyleSheet.create({
@@ -82,8 +56,10 @@ const listCategory=[ {
   
   });
 const mapStateToProps = (state) => {
-  return {
-    personData: state.listPro.list
+	
+	return {
+    personData: state.listPro.list,
+	theCategory:state.currentCategory.category
   };
 }
 
@@ -91,16 +67,22 @@ const mapDispatchToProps = (dispatch) => {
   return { 
     watchPersonData: () => dispatch(watchPersonData()),
 	initdata:()=>dispatch(initdata()),
+	setCategory:(setCategoryName)=>dispatch(selectedCategory(setCategoryName))
 };
 }
 
- const HomePage = ({watchPersonData,personData,initdata}) => {
+ const HomePage = ({watchPersonData,personData,initdata,setCategory,theCategory}) => {
 	useEffect(() => {
-		console.log('hey')
-		console.log(watchPersonData())
+		
+		watchPersonData()
+		personData.sort(function(a, b) {
+			return parseFloat(b.reg) - parseFloat(a.reg);
+		});
+		
 	  }, []);
 	 
-
+	  console.log("theCategory")
+	  console.log(theCategory)
 	return(
 	<ScrollView style={styles.MainContainer}>
 
@@ -111,22 +93,33 @@ const mapDispatchToProps = (dispatch) => {
 	  </View>
 	  <View style={styles.categorySection} >
 	  <FlatList style={styles.listCategoryStyle}
-            data={listCategory}
-            keyExtractor={(item) => item.name}
+            data={listItemCategory}
+            keyExtractor={(item) => item.category}
             horizontal = { true }
 			renderItem={({ item }) => (
-             <CategoryItem item={item}/>
+			<TouchableOpacity
+			onPress={() => {
+				setCategory(item.category)
+				
+			  }}
+			>
+			 <CategoryItem item={item}/>
+			 </TouchableOpacity>
             )}
           />
 	  </View>
 	  <View style={styles.hotSection} >
-	  <ProductItem item={listCategory[0]} isHot={true}/>
+	 
+	  <ProductItem item={listItemSection[0]} isHot={true} isItemsCategory={false}/>
 	  </View>
-	  {listItemSection.map((sec) =>
-              <View style={styles.productSection} key={sec.name}>
-                <ListSection nameSection={sec.sectionName}/>
-    
-              </View>)}
+	  {theCategory=="מומלצים" ? 
+	  listItemSection.map((sec) =>
+              <View style={styles.productSection} key={sec.sectionName}>
+                <ListSection nameSection={sec.sectionName} listItems={personData}/>
+              </View>) : 
+			  <ListItemsCategory listItems={personData}/>}
+
+	  
 	  
 		
 	  
@@ -145,7 +138,7 @@ const mapDispatchToProps = (dispatch) => {
 	
 		HomePage.propTypes = {
 		personData: PropTypes.array,
-	  
+		
 	};	
 	export default connect(
 	  mapStateToProps,

@@ -14,13 +14,14 @@ import {
 
 const windowHeight = Dimensions.get('window').width;
 const heightImage = (0.4)*windowHeight*(3/4);
-const ProductItem = ({item,isHot}) => {
+const ProductItem = ({item,isHot,isItemsCategory}) => {
   return (
    
+<View >
 <Card containerStyle={{ backgroundColor: '#2089dc',
 	  width: isHot?"100%":windowHeight*0.4,
 	 margin:0,
-	  height:"100%", 
+	  height:isItemsCategory?windowHeight*0.6:"100%", 
 	  padding:0,
 	  marginLeft:isHot?0:10}}>
              
@@ -28,24 +29,26 @@ const ProductItem = ({item,isHot}) => {
 			  <Card.Image
            style={{ resizeMode: 'contain' ,height:"100%" ,width:"100%",}}
             
-            source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/finalpro-c979d.appspot.com/o/dyson.png?alt=media&token=2ff78fe4-4e4a-4dcf-ae3c-e5633e006a3c' }}
+            source={{ uri: item.image }}
           >
               </Card.Image>
 			  </View>
-			  <Text>DFD</Text>
+			  <Text>{item.name}</Text>
 			 
             </Card>
-  
+			</View>
   );
 };
 
 export default ProductItem;
 
 const styles = StyleSheet.create({
-	container: {
-	  flex: 1,
-	 
-	},
+	mainContainer: {
+        flex: 1,
+        flexWrap: 'wrap',
+        flexDirection: 'row'
+  },
+	
 	card: {
 	  backgroundColor: '#2089dc',
 	  width: windowHeight*0.4,

@@ -23,7 +23,7 @@ export const reducer = (state = initialState, action) => {
 				// console.log(action.payload[0].time, 'omer')
 				
 			if (JSON.stringify(updatedListItem.time) === JSON.stringify(action.payload[0].time) ) {
-				console.log("FDdddddddddddddddddd")
+				
 				updatedListItem = action.payload[0];
 			  return updatedListItem;
 			}
@@ -43,8 +43,7 @@ export const reducer = (state = initialState, action) => {
 			// 		updatedListItem.isOn=false
 			// 		return updatedListItem
 			// })
-		console.log(updatedList)
-		console.log("updatedList")
+
 
 	
 		return {

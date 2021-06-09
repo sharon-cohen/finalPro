@@ -22,7 +22,6 @@ export const initdata=()=>{
       snapshot
         .docs
         .forEach(doc => {
-          console.log(JSON.parse(doc._document.data.toString()))
 		  listDate.push(JSON.parse(doc._document.data.toString()))
         });
 		dispatch(setPersonData(docs)) 
