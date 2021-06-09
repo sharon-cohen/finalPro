@@ -27,7 +27,7 @@ const ProductItem = ({item,isHot,isItemsCategory,chooseProduct,navigation}) => {
 <TouchableOpacity
 onPress={() => {
 	console.log(item)
-	navigation.navigate('Product', item)
+	navigation.navigate('product', item)
 	
   }}
 >

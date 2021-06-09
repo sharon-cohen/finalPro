@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { watchPersonData } from '../../redux/product/productActions';
 import { initdata } from '../../redux/product/productActions';
 import { selectedCategory } from '../../redux/category/categoryActions';
-import { createPortal } from 'react-dom';
 import Header from '../../components/Header' 
 import CategoryItem from './componemt/CategoryItem';
 import ProductItem from './componemt/ProductItem';
@@ -87,10 +86,7 @@ const mapDispatchToProps = (dispatch) => {
 	<ScrollView style={styles.MainContainer}>
 
 	  <SafeAreaView style={styles.MainContainer}>
-	  <View style={styles.headerSection} >
-	  <Header/>
-	  
-	  </View>
+	 
 	  <View style={styles.categorySection} >
 	  <FlatList style={styles.listCategoryStyle}
             data={listItemCategory}
