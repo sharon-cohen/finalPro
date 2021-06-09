@@ -7,7 +7,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import  HomePage  from './src/pages/home/HomePage';
 import  {ProductPage}  from './src/pages/product/ProductPage';
 import  {ProfilePage}  from './src/pages/profile/ProfilePage';
-import  {SearchPage}  from './src/pages/search/SearchPage';
+import  SearchPage  from './src/pages/search/SearchPage';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { HomeStackScreen } from './src/pages/home/componemt/HomeStackScreen';
 const Tab = createMaterialBottomTabNavigator();

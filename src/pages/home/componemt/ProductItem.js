@@ -25,7 +25,12 @@ const ProductItem = ({item,isHot,isItemsCategory,chooseProduct,navigation}) => {
   return (
    
 <TouchableOpacity
-onPress={() => navigation.navigate('Product')}>
+onPress={() => {
+	console.log(item)
+	navigation.navigate('Product', item)
+	
+  }}
+>
 <Card containerStyle={{ backgroundColor: '#2089dc',
 	  width: isHot?"100%":windowHeight*0.4,
 	 margin:0,
@@ -49,7 +54,7 @@ onPress={() => navigation.navigate('Product')}>
 };
 
 export default connect(
-	mapDispatchToProps
+	null,mapDispatchToProps
   )(ProductItem)
 
 const styles = StyleSheet.create({
