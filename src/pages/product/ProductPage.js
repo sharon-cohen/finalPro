@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Image,Dimensions,Text, View ,StyleSheet} from 'react-native';
+import { Image,Dimensions,Text, View ,StyleSheet,Button} from 'react-native';
+import { NameAndPrice } from '../../components/NameAndPrice';
+import { firebase } from '../../firebase/config';
+import { getItemIdDocByName } from '../../firebase/CommonQueries';
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
@@ -25,11 +28,24 @@ const styles = StyleSheet.create({
 
 	},
 	
-  
+	bottomView: {
+		width: '100%',
+		height: 50,
+		justifyContent: 'flex-end',
+		position: 'absolute',
+		bottom: 0,
+	  },
 	
   
   });
 export const ProductPage= (item) => {
+	const upateRegItem = async () => {
+		let id=await getItemIdDocByName(item.route.params.name)
+		await firebase.firestore().collection('data').doc(id)
+		.update({
+			reg: item.route.params.reg + 1,
+		  });
+	}
 	console.log(item.route.params.image)
 	return (
 	  <View style={styles.MainContainer}>
@@ -42,8 +58,14 @@ export const ProductPage= (item) => {
       />
 	  </View>
 		<View style={styles.headerSection}>
-			<Text>{item.route.params.name}</Text>
+			<NameAndPrice item={item.route.params}/>
+			 
 		</View>
+		
+          
+		<View style={styles.bottomView}>
+      <Button  title='רכשו עכשיו!' onPress={() => upateRegItem()}  />
+    </View>
 	  </View>
 	);
   }

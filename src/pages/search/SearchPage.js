@@ -12,7 +12,7 @@
 	
   };
 }
- const SearchPage = (personData) => {
+ const SearchPage = ({personData,navigation}) => {
 	const [search, setSearch] = useState('');
 	const [filteredDataSource, setFilteredDataSource] = useState([]);
 	const [masterDataSource, setMasterDataSource] = useState([]);
@@ -21,7 +21,7 @@
 		
 		console.log("sharona")
 		console.log(personData)
-		setMasterDataSource(personData.personData)
+		setMasterDataSource(personData)
 	}, []);
   
 	const searchFilterFunction = (text) => {
@@ -32,7 +32,8 @@
 		// Update FilteredDataSource
 		const newData = masterDataSource.filter(function (item) {
 		  const itemData = item.name
-			? item.name.toUpperCase()
+
+		  ? item.name.toUpperCase()
 				: ''.toUpperCase();
 		  const textData = text.toUpperCase();
 		  return itemData.indexOf(textData) > -1;
@@ -74,8 +75,7 @@
 	};
   
 	const getItem = (item) => {
-	  console.log(item)
-	  alert('Id : ' + item.name );
+		navigation.navigate('product', item)
 	};
   
 	return (

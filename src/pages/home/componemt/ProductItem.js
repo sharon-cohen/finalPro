@@ -1,9 +1,9 @@
 import React from "react";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Card, Divider } from 'react-native-elements';
-
 import { connect } from 'react-redux';
 import { selectedProduct } from "../../../redux/SelectedProduct/SelectedProductActions";
+import { NameAndPrice } from "../../../components/NameAndPrice";
 import {
 	TouchableOpacity,
 	Dimensions ,
@@ -31,24 +31,27 @@ onPress={() => {
 	
   }}
 >
-<Card containerStyle={{ backgroundColor: '#2089dc',
+<View style={{ backgroundColor: '#2089dc',
 	  width: isHot?"100%":windowHeight*0.4,
 	 margin:0,
-	  height:isItemsCategory?windowHeight*0.6:"100%", 
+	  height:isItemsCategory?"100%":"20%", 
 	  padding:0,
 	  marginLeft:isHot?0:10}}>
              
-			 <View style={{ height:heightImage ,width:"100%",backgroundColor:"white"}}>
-			  <Card.Image
-           style={{ resizeMode: 'contain' ,height:"100%" ,width:"100%",}}
+			 <View style={{ height:'50%' ,width:"100%",backgroundColor:"white"}}>
+			 <Image
+		 style={{ resizeMode: 'contain' ,height:"100%" ,width:"100%",}}
             
-            source={{ uri: item.image }}
-          >
-              </Card.Image>
+		 source={{ uri: item.image }}	 
+			 />
+          
+              
 			  </View>
-			  <Text>{item.name}</Text>
-			 
-            </Card>
+			  <View style={{ height:'50%' ,width:"100%"}}>
+			  <NameAndPrice item={item}/>
+			  </View>
+			
+			</View>
 </TouchableOpacity>
   );
 };

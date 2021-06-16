@@ -1,36 +1,48 @@
 import React from "react";
 import ProductItem from "./ProductItem";
 import {
+	Dimensions ,
 	View,
 	Text,
 	FlatList,
   StyleSheet,
   SafeAreaView
 } from "react-native";
+const windowHeight = Dimensions.get('window').height;
 const ListItemsCategory = ({listItems,navigation}) => {
+	console.log(listItems)
 	return(
-<SafeAreaView style={styles.feed}>
+<View style={styles.main}>
+<View style={styles.feed}>
 	{listItems.map((pro) =>
-              <View style={styles.productSection} key={pro.name}>
+             
+			  <View style={styles.card} key={pro.name}>
                 <ProductItem item={pro} isHot={false} isItemsCategory={true} navigation={navigation}/>
               </View>)}
- </SafeAreaView>
-
+ </View>
+ </View>
 );};
 const styles = StyleSheet.create({
+	main:{
+	
+		flex: 1 
+		
+	},
 	feed: {
-		flex: 1,
+		
 		flexDirection: 'row',
 		flexWrap: 'wrap',
-		padding: 16,
-		justifyContent: 'space-between'  },
+		
+	
+		justifyContent: 'space-between' ,
+		
+	},
 	   
 	   
 	   card: {
-		backgroundColor: 'blue',
-		
+	
 		width: '48%',
-		aspectRatio: 1,
+		aspectRatio: 0.8,
 		marginBottom: 16   }
   });
   export default ListItemsCategory;

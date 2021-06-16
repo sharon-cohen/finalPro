@@ -18,7 +18,7 @@ import ListSection from './componemt/ListSection';
 	MainContainer: {
 	 
 		flex: 1,
-		marginTop: 5,
+		
 		backgroundColor: '#F5FCFF',
 	},
 	headerSection:{
@@ -27,7 +27,11 @@ import ListSection from './componemt/ListSection';
 	categorySection:{
 		height:windowHeight*0.12,
 		backgroundColor:"blue",
+		
 
+	},
+	itemsCategory:{
+		
 	},
 	hotSection:{
 		height:windowHeight*0.4,
@@ -43,8 +47,8 @@ import ListSection from './componemt/ListSection';
 	productSection:{
 		height:windowHeight*0.4,
 		backgroundColor:"gray",
-		
 		margin: 10,
+		
 	},
 	listCategoryStyle:{
 	
@@ -54,7 +58,8 @@ import ListSection from './componemt/ListSection';
 	
   
   });
-const mapStateToProps = (state) => {
+  
+  const mapStateToProps = (state) => {
 	
 	return {
     personData: state.listPro.list,
@@ -79,7 +84,19 @@ const mapDispatchToProps = (dispatch) => {
 		});
 		
 	  }, []);
-	 
+	  const getListItemByCtegory=()=>{
+	
+		let itemsCategory=[]
+		console.log(personData)
+		for (let i = 0, l = personData.length; i < l; i++) {
+			
+			if(theCategory==personData[i].category){
+				itemsCategory.push(personData[i])
+			}
+		
+		}
+		return itemsCategory;
+	}
 	  console.log("theCategory")
 	  console.log(theCategory)
 	return(
@@ -113,9 +130,10 @@ const mapDispatchToProps = (dispatch) => {
               <View style={styles.productSection} key={sec.sectionName}>
                 <ListSection nameSection={sec.sectionName} listItems={personData} navigation={navigation}/>
               </View>) : 
-			  <ListItemsCategory listItems={personData} navigation={navigation}/>}
-
-	  
+			  <View style={styles.itemsCategory}>
+			  <ListItemsCategory listItems={getListItemByCtegory()} navigation={navigation}/>
+			</View>}
+			  
 	  
 		
 	  

@@ -22,14 +22,18 @@ const ListSection = ({nameSection,listItems,navigation}) => {
 	<View style={styles.titleList} >
 	<Text>{nameSection}</Text>
 	</View>
+	<View sstyle={styles.listCategoryStyle}>
 	<FlatList style={styles.listCategoryStyle}
 		  data={listItems}
 		  keyExtractor={(item) => item.name}
 		  horizontal = { true }
 		  renderItem={({ item }) => (
+			<View style={styles.wrapCard}>
 		   <ProductItem item={item} isHot={false} isItemsCategory={true} navigation={navigation}/>
+		   </View>
 		  )}
 		/>
+		 </View>
 	</View>
   
   );
@@ -46,10 +50,15 @@ const styles = StyleSheet.create({
 	},
 	listCategoryStyle:{
 	
-		flex: 1,
+		height:"80%",
+		
 	},
 	titleList:{
 		height:"15%",
 		backgroundColor:"red",
+	},
+	wrapCard:{
+		
+		
 	},
   });

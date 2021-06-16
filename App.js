@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet,Button } from 'react-native';
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import  {ProductPage}  from './src/pages/product/ProductPage';
 import { HomeStackScreen } from './src/pages/home/componemt/HomeStackScreen';
+import { ProductForm } from './src/pages/product/ProductForm';
 const HomeStack = createStackNavigator();
 
 
@@ -18,8 +19,21 @@ export default function App() {
     initialRouteName="HomeStack"
 	
     >
-    <HomeStack.Screen name="HomeStack" component={HomeStackScreen} />     
+    <HomeStack.Screen name="HomeStack" 
+    options={({ navigation }) => ({
+
+     
+      headerRight: () => (
+        <Button
+          onPress={() => navigation.navigate('productForm')}
+          title="פרסם מוצר חדש"
+          color="black"
+        />
+      ),
+    })}
+    component={HomeStackScreen} />     
     <HomeStack.Screen name="product" component={ProductPage} />
+    <HomeStack.Screen name="productForm" component={ProductForm} />
    </HomeStack.Navigator>
 
    </NavigationContainer>

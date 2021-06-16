@@ -16,10 +16,15 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+   
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.finalPro.app"
+    
+
     },
     "android": {
+      "package": "com.finalPro.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"

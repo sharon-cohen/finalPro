@@ -22,7 +22,7 @@ export const reducer = (state = initialState, action) => {
 			let updatedListItem = { ...listItem };
 				// console.log(action.payload[0].time, 'omer')
 				
-			if (JSON.stringify(updatedListItem.time) === JSON.stringify(action.payload[0].time) ) {
+			if (updatedListItem.name === action.payload[0].name ) {
 				
 				updatedListItem = action.payload[0];
 			  return updatedListItem;
