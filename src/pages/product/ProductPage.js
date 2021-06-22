@@ -4,8 +4,23 @@ import { Image,Dimensions,Text, View ,StyleSheet,Button} from 'react-native';
 import { NameAndPrice } from '../../components/NameAndPrice';
 import { firebase } from '../../firebase/config';
 import { getItemIdDocByName } from '../../firebase/CommonQueries';
+import { setUser } from '../../redux/User/userActions';
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
+const mapStateToProps = (state) => {
+	
+	return {
+    currentUser: state.user,
+	
+  };
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return { 
+  setCurrentUser: (user) => dispatch(setUser(user)),
+
+};
+}
 const styles = StyleSheet.create({
 	MainContainer: {
 	 
@@ -38,34 +53,46 @@ const styles = StyleSheet.create({
 	
   
   });
-export const ProductPage= (item) => {
+const ProductPage= ({ route, navigation, currentUser}) => {
 	const upateRegItem = async () => {
-		let id=await getItemIdDocByName(item.route.params.name)
+		let id=await getItemIdDocByName(route.params.item.name)
 		await firebase.firestore().collection('data').doc(id)
 		.update({
-			reg: item.route.params.reg + 1,
+			reg: route.params.item.reg + 1,
 		  });
-	}
-	console.log(item.route.params.image)
-	return (
+		  var ref = await firebase.firestore().collection("users").doc(currentUser.user.uid);
+
+		  
+		  await ref.update({
+			  myItems: firebase.firestore.FieldValue.arrayUnion(id)
+		  });
+		  
+		  alert("finish")
+		}
+		
+		return (
 	  <View style={styles.MainContainer}>
 		<View style={styles.imageSection}>
 		<Image style= {styles.theImage}
      
         source={{
-          uri: item.route.params.image,
+          uri: route.params.item.image,
         }}
       />
 	  </View>
 		<View style={styles.headerSection}>
-			<NameAndPrice item={item.route.params}/>
+			<NameAndPrice item={route.params.item}/>
 			 
 		</View>
 		
           
-		<View style={styles.bottomView}>
+	<View style={styles.bottomView}>
       <Button  title='רכשו עכשיו!' onPress={() => upateRegItem()}  />
     </View>
 	  </View>
 	);
   }
+  export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+  )(ProductPage)

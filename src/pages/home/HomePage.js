@@ -22,7 +22,8 @@ import ListSection from './componemt/ListSection';
 		backgroundColor: '#F5FCFF',
 	},
 	headerSection:{
-		height:windowHeight*0.08,
+		height:windowHeight*0.09,
+		marginTop:15
 	},
 	categorySection:{
 		height:windowHeight*0.12,
@@ -76,34 +77,58 @@ const mapDispatchToProps = (dispatch) => {
 }
 
  const HomePage = ({watchPersonData,personData,initdata,setCategory,theCategory,navigation}) => {
+	const [hotItem, setHotItem] = useState(null);
+	const [filterCategory,setFilterCategory]=useState([])
 	useEffect(() => {
-		
 		watchPersonData()
 		personData.sort(function(a, b) {
 			return parseFloat(b.reg) - parseFloat(a.reg);
 		});
 		
-	  }, []);
+		getListItemByCtegory()
+	  }, [theCategory]);
+	  useEffect(() => {
+		
+	   personData.sort(function(a, b) {
+		   return parseFloat(b.reg) - parseFloat(a.reg);
+	   });
+	   
+	  
+	 }, []);
+	
+	  
 	  const getListItemByCtegory=()=>{
 	
 		let itemsCategory=[]
-		console.log(personData)
+		
+		
 		for (let i = 0, l = personData.length; i < l; i++) {
+			
 			
 			if(theCategory==personData[i].category){
 				itemsCategory.push(personData[i])
 			}
 		
 		}
-		return itemsCategory;
+		
+	
+		setFilterCategory(itemsCategory)
+		let mostRecomment=itemsCategory[0]
+		for (let i = 0, l = itemsCategory.length; i < l; i++) {
+			if(itemsCategory[i].reg>= mostRecomment.reg){
+			mostRecomment=itemsCategory[i]
+			}
+		}
+		setHotItem(mostRecomment)
 	}
-	  console.log("theCategory")
-	  console.log(theCategory)
+
 	return(
 	<ScrollView style={styles.MainContainer}>
 
 	  <SafeAreaView style={styles.MainContainer}>
-	 
+	  <View style={styles.headerSection} >
+	  <Header navigation={navigation}/>
+	  </View> 
 	  <View style={styles.categorySection} >
 	  <FlatList style={styles.listCategoryStyle}
             data={listItemCategory}
@@ -121,17 +146,21 @@ const mapDispatchToProps = (dispatch) => {
             )}
           />
 	  </View>
-	  <View style={styles.hotSection} >
+	  {hotItem==null ?
+	 <Text>dfdfd</Text>:<View style={styles.hotSection} >
 	 
-	  <ProductItem item={listItemSection[0]} isHot={true} isItemsCategory={false}/>
-	  </View>
+	 <ProductItem item={hotItem} isHot={true} isItemsCategory={false}/>
+	 </View> 
+	}
+	  
 	  {theCategory=="מומלצים" ? 
 	  listItemSection.map((sec) =>
               <View style={styles.productSection} key={sec.sectionName}>
                 <ListSection nameSection={sec.sectionName} listItems={personData} navigation={navigation}/>
               </View>) : 
+			 
 			  <View style={styles.itemsCategory}>
-			  <ListItemsCategory listItems={getListItemByCtegory()} navigation={navigation}/>
+			  <ListItemsCategory listItems={filterCategory} navigation={navigation}/>
 			</View>}
 			  
 	  
@@ -146,10 +175,6 @@ const mapDispatchToProps = (dispatch) => {
 	  )
 		};
   
-  
-  
-	
-	
 		HomePage.propTypes = {
 		personData: PropTypes.array,
 		

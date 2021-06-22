@@ -12,7 +12,7 @@ export const reducer = (state = initialState, action) => {
         case SET_PERSON_DATA:
 		// og(typeof(action.payload))
 	
-		let updatedList=[]
+		let updatedList=[]	
 		if (state.list.length === 0){
 			updatedList = action.payload
 		}	
@@ -20,7 +20,7 @@ export const reducer = (state = initialState, action) => {
 			updatedList = state.list.map((listItem) => {
 				
 			let updatedListItem = { ...listItem };
-				// console.log(action.payload[0].time, 'omer')
+				// 	(action.payload[0].time, 'omer')
 				
 			if (updatedListItem.name === action.payload[0].name ) {
 				

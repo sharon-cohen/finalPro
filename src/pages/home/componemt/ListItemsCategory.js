@@ -10,7 +10,7 @@ import {
 } from "react-native";
 const windowHeight = Dimensions.get('window').height;
 const ListItemsCategory = ({listItems,navigation}) => {
-	console.log(listItems)
+	
 	return(
 <View style={styles.main}>
 <View style={styles.feed}>

@@ -2,7 +2,6 @@ import React from "react";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Card, Divider } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { selectedProduct } from "../../../redux/SelectedProduct/SelectedProductActions";
 import { NameAndPrice } from "../../../components/NameAndPrice";
 import {
 	TouchableOpacity,
@@ -13,6 +12,7 @@ import {
   StyleSheet,
  
 } from "react-native";
+import { useState } from 'react';
 
 const windowHeight = Dimensions.get('window').width;
 const heightImage = (0.4)*windowHeight*(3/4);
@@ -22,19 +22,20 @@ const mapDispatchToProps = (dispatch) => {
   };
   }
 const ProductItem = ({item,isHot,isItemsCategory,chooseProduct,navigation}) => {
-  return (
+	
+	return (
    
 <TouchableOpacity
 onPress={() => {
-	console.log(item)
-	navigation.navigate('product', item)
+	
+	navigation.navigate('product', {item})
 	
   }}
 >
 <View style={{ backgroundColor: '#2089dc',
-	  width: isHot?"100%":windowHeight*0.4,
+	  width: isHot?'100%':windowHeight*0.4,
 	 margin:0,
-	  height:isItemsCategory?"100%":"20%", 
+	  height:isItemsCategory?"100%":"100%", 
 	  padding:0,
 	  marginLeft:isHot?0:10}}>
              

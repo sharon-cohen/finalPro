@@ -1,8 +1,8 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text,Button } from "react-native";
 import { Colors } from "../static/ColorComfig";
 
-const Header = () => {
+const Header = ({navigation}) => {
   return (
     <View
       style={{
@@ -14,6 +14,11 @@ const Header = () => {
       }}
     >
       <Text >GroupBuy</Text>	
+      <Button
+          onPress={() => navigation.navigate('productForm')}
+          title="פרסם מוצר חדש"
+          color="black"
+        />  
     </View>
   );
 };

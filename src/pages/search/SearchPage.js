@@ -3,8 +3,11 @@
 
   import { connect } from 'react-redux';
 
-  import { SafeAreaView, Text, StyleSheet, View, FlatList } from 'react-native';
+  import { SafeAreaView, Text, StyleSheet, View, FlatList,Dimensions } from 'react-native';
   import { SearchBar } from 'react-native-elements';
+  import Header from '../../components/Header' 
+  const windowHeight = Dimensions.get('window').height;
+
   const mapStateToProps = (state) => {
 	
 	return {
@@ -19,8 +22,7 @@
   
 	useEffect(() => {
 		
-		console.log("sharona")
-		console.log(personData)
+	
 		setMasterDataSource(personData)
 	}, []);
   
@@ -80,6 +82,9 @@
   
 	return (
 	  <SafeAreaView style={{ flex: 1 }}>
+		<View style={styles.headerSection} >
+		  <Header navigation={navigation}/>
+	  </View> 
 		<View style={styles.container}>
 		  <SearchBar
 			round
@@ -107,7 +112,11 @@
 	itemStyle: {
 	  padding: 10,
 	},
-  });
+	headerSection:{
+		height:windowHeight*0.09,
+		marginTop:15
+	},  
+});
   
   export default connect(
 	mapStateToProps,

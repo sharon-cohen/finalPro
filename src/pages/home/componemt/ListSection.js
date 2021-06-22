@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
 	listCategoryStyle:{
 	
 		height:"80%",
-		
+		backgroundColor: 'black'
 	},
 	titleList:{
 		height:"15%",

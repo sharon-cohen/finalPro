@@ -4,9 +4,12 @@ import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import  {ProductPage}  from './src/pages/product/ProductPage';
+import  ProductPage from './src/pages/product/ProductPage';
 import { HomeStackScreen } from './src/pages/home/componemt/HomeStackScreen';
 import { ProductForm } from './src/pages/product/ProductForm';
+import { UplodImage } from './src/pages/product/UplodImage';
+import SplashApp from './SplashApp';
+import Login  from './Login';
 const HomeStack = createStackNavigator();
 
 
@@ -16,9 +19,10 @@ export default function App() {
     
     <NavigationContainer>
     <HomeStack.Navigator 
-    initialRouteName="HomeStack"
+    initialRouteName="splashScreen"
 	
     >
+    
     <HomeStack.Screen name="HomeStack" 
     options={({ navigation }) => ({
 
@@ -28,12 +32,24 @@ export default function App() {
           onPress={() => navigation.navigate('productForm')}
           title="פרסם מוצר חדש"
           color="black"
-        />
+        />  
       ),
     })}
     component={HomeStackScreen} />     
-    <HomeStack.Screen name="product" component={ProductPage} />
+    <HomeStack.Screen 
+    
+    name="product" component={ProductPage} />
+    <HomeStack.Screen 
+   
+    name="login" component={Login} 
+    />
+    <HomeStack.Screen 
+    options={{headerShown: false}}
+    name="splashScreen" component={SplashApp} 
+    
+    />
     <HomeStack.Screen name="productForm" component={ProductForm} />
+    <HomeStack.Screen name="uplodImage" component={UplodImage} />
    </HomeStack.Navigator>
 
    </NavigationContainer>
