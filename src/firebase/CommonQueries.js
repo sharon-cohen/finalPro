@@ -45,3 +45,15 @@ export const signOutUser = async (navigation) => {
 	navigation.navigate('login')
   
 };
+
+export const toggleTypeUser = async (uid,isMamager,phoneNumber)=> {
+	
+	
+	const db = firebase.firestore();
+	await db.collection('users').doc(uid).update({
+		isManag:!isMamager,
+		phoneNumber:phoneNumber
+	})
+
+
+}

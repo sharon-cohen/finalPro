@@ -50,7 +50,7 @@ const mapDispatchToProps = (dispatch) => {
             name:name
           };
          
-          const userInRedux = {email:credentials.user.email, uid:credentials.user.uid,name:name};
+          const userInRedux = {email:credentials.user.email, uid:credentials.user.uid,name:name,isManager:false};
           setCurrentUser(userInRedux)
           return f.firestore().collection('users').doc(credentials.user.uid).set(user).then(login(false));
         })
@@ -67,9 +67,10 @@ const mapDispatchToProps = (dispatch) => {
    .then(async user => {
   
     const theUser= await getUserByUID(user.user.uid)
+  
     const theUserData=theUser.data()
     
-    const userInRedux = {email:user.email, uid:user.uid,name:theUserData['name']};
+    const userInRedux = {email:user.email, uid:user.uid,name:theUserData['name'],isManager:theUserData['isManag']};
     setCurrentUser(userInRedux)
     navigation.navigate('HomeStack')
 

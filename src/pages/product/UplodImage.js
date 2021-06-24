@@ -38,13 +38,13 @@ export  function UplodImage(value) {
 	{
 		
 		await firebase.firestore().collection('data').add({
-			name:value.route.params['שם המוצר'],
-			goal:value.route.params['מינמום נרשמים'],
+			name:value.route.params["productName"],
+			goal:value.route.params["amountOfPeople"],
 			image:imageUrl,
-			newPrice:value.route.params['מחיר אחרי הנחה'],
-			oldPrice:value.route.params['מחיר לפני הנחה'],
+			newPrice:value.route.params["priceAfterDiscount"],
+			oldPrice:value.route.params["priceBeforeDiscount"],
 			reg:0,
-			category:"לבית ולגן"
+			category:value.route.params["category"],
 		  })
 	alert('המוצר נשמר בהצלחה')
 	value.navigation.navigate("HomeStack")
@@ -52,9 +52,7 @@ export  function UplodImage(value) {
  }
  
  
- const saveForm= ()=> {
-    
-  } 
+console.log(value.route.params)
   return (
     <View style={styles.container}>
       <Image source={{ uri: imageUrl }} style={styles.logo} />

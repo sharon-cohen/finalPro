@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet,Button } from 'react-native';
+import React,{useEffect} from 'react';
+import { View, Text, StyleSheet,Button ,I18nManager} from 'react-native';
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
 import { NavigationContainer } from '@react-navigation/native';
@@ -10,10 +10,16 @@ import { ProductForm } from './src/pages/product/ProductForm';
 import { UplodImage } from './src/pages/product/UplodImage';
 import SplashApp from './SplashApp';
 import Login  from './Login';
+
 const HomeStack = createStackNavigator();
 
 
 export default function App() {
+  useEffect(() => {
+    I18nManager.forceRTL(true);
+    !I18nManager.isRTL && RNRestart.Restart()
+  }, []);
+ 
   return (
     <Provider store={store}>
     

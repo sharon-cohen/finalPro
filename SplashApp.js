@@ -40,7 +40,7 @@ const SplashApp = ({navigation,setCurrentUser}) => {
                 resolve(user)
                 const theUser= await getUserByUID(user.uid)
                 const theUserData=theUser.data()
-                const userInRedux = {email:user.email, uid:user.uid,name:theUserData['name']};
+                const userInRedux = {email:user.email, uid:user.uid,name:theUserData['name'],isManager:theUserData['isManag']};
                 setCurrentUser(userInRedux)
                 setData(true)
               } else {

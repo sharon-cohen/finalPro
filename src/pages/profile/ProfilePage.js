@@ -1,25 +1,25 @@
 
 
 import React ,{useState,useEffect}from 'react';
-import {View, SafeAreaView, StyleSheet,Text,Button, Dimensions} from 'react-native';
+import {View, SafeAreaView, StyleSheet,Text,Button, Dimensions,ScrollView} from 'react-native';
 import {
- 
   Title,
   Caption,
-  
- 
 } from 'react-native-paper';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { setUser } from '../../redux/User/userActions';
 import { connect } from 'react-redux';
 import { signOutUser } from '../../firebase/CommonQueries';
-import  listItemCategory  from '../home/static/ListSectionItem';
-import { getUserItemByUID } from '../../firebase/CommonQueries';
+import { getUserItemByUID,toggleTypeUser } from '../../firebase/CommonQueries';
 import ListSection from '../home/componemt/ListSection';
 import Header from '../../components/Header' 
+import DialogInput from 'react-native-dialog-input';
+import { CustomProgressBar } from '../../components/CustomProgressBar';
+import {  ProgressDialog  } from 'react-native-simple-dialogs';
 
 const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get('window').width;
 
 const mapStateToProps = (state) => {
 	
@@ -41,7 +41,9 @@ const ProfilePage= ({currentUser,navigation,personData}) => {
 	const [personDataList,setPersonDataList]= useState(null)
   const [poductJoin,setPoductJoin]= useState(0)
   const [poductReady,setPoductReady]= useState(0)
-	
+	const [isDialogVisible,setIsDialogVisible]=useState(false)
+  const [isProgress,setIsProgress]=useState(false)
+
   useEffect(() => {
 		let personListItems=[]
 		let countRedy=0
@@ -82,12 +84,37 @@ const ProfilePage= ({currentUser,navigation,personData}) => {
 	  }, [])
 	
     
+    const sendInput= async (inputText)=>{
+      setIsDialogVisible(false)
+      console.log("sendInput (DialogInput#1): "+inputText);
+      setIsProgress(true)
+      await toggleTypeUser(currentUser.user.uid,currentUser.user.isManager,inputText)
+      setIsProgress(false)
+    }
   return (
-    <SafeAreaView style={styles.container}>
+
+<SafeAreaView style={styles.container}>
 <View style={styles.headerSection} >
 <Header navigation={navigation}/>
 	  </View> 
+      
+    <ScrollView style={styles.scrollView}>
+   <ProgressDialog
+    visible={isProgress}
+    title="Progress Dialog"
+    message="Please, wait..."
+/>
       <View style={styles.userInfoSection}>
+      <DialogInput isDialogVisible={isDialogVisible}
+                    title={"GroupBuy Business"}
+                    
+                    message ={"הקלידו את מספר הטלפון שלכם ונחזור אליכם בהקדם "}
+                    textInputProps={{keyboardType:'number-pad'}}
+                    submitInput={ (inputText) => {sendInput(inputText)} }
+                    submitText={"אישור"}
+                    cancelText={"ביטול"}
+                    closeDialog={ () => {setIsDialogVisible(false)}}>
+        </DialogInput>
         <View style={{ marginTop: 20}}>
           
           <View style={{}}>
@@ -123,9 +150,17 @@ const ProfilePage= ({currentUser,navigation,personData}) => {
       {personDataList!=null && personDataList.length!=0?<View style={styles.productSection} >
                 <ListSection nameSection={"מוצרים שלי"} listItems={personDataList} navigation={navigation}/>
               </View>:null}
-	  <View style={styles.bottomView}>
+              <View style={styles.buttonJoinBusiness}>
+         {!currentUser.user.isManager?<Button
+          onPress={() => setIsDialogVisible(true)}
+          title="הצטרף ל GroupBuy Business"
+          color="black"
+        /> :null} 
+     </View>
+    <View style={styles.bottomView}>
       <Button  title='התנתק' onPress={() => signOutUser(navigation)} />
     </View>
+    </ScrollView>
     </SafeAreaView>
   );
 };
@@ -146,6 +181,15 @@ const styles = StyleSheet.create({
 		margin: 10,
 		
 	},
+  buttonJoinBusiness:{
+    width:windowWidth*0.5,
+    alignSelf: 'flex-end',
+    margin: 10,
+  },
+  scrollView: {
+   
+  
+  },
   userInfoSection: {
     paddingHorizontal: 30,
     marginBottom: 25,
@@ -201,7 +245,6 @@ const styles = StyleSheet.create({
 		width: '100%',
 		height: 50,
 		justifyContent: 'flex-end',
-		position: 'absolute',
-		bottom: 0,
+	
 	  },
 });
