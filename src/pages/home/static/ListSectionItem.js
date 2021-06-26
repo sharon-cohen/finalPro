@@ -8,7 +8,7 @@ export const listItemSection = [
   {
     sectionName: 'הבטיחו את מקומכם',
   },
-];
+]
 export const listItemCategory = [
   {
     category: 'מומלצים',
@@ -25,4 +25,4 @@ export const listItemCategory = [
   {
     category: 'חופשות',
   },
-];
+]

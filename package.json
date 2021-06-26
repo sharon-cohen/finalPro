@@ -7,7 +7,14 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "lint": "eslint --cache --fix --format codeframe --ext .js ."
+    "lint": "eslint --cache --fix --format codeframe --ext .js .",
+    "prettier-format": "prettier --write src/**/*.js"
+    
+  },
+  "prettier": {
+    "jsxBracketSameLine": true,
+    "semi": false,
+    "singleQuote": true
   },
   "dependencies": {
     "@react-navigation/material-bottom-tabs": "^5.3.15",
@@ -31,7 +38,7 @@
     "expo-status-bar": "~1.0.4",
     "firebase": "8.2.3",
     "native-base": "^2.15.2",
-    "prettier": "^2.3.1",
+    "prettier": "^2.3.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-hook-form": "^7.8.8",
@@ -80,4 +87,5 @@
     "react-test-renderer": "^17.0.2"
   },
   "private": true
+  
 }

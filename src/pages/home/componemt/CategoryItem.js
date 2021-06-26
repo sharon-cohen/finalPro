@@ -1,15 +1,15 @@
-import React from 'react';
-import { Card } from 'react-native-elements';
+import React from 'react'
+import { Card } from 'react-native-elements'
 
-import { Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet } from 'react-native'
 
 const CategoryItem = ({ item }) => (
   <Card containerStyle={styles.card}>
     <Text style={styles.text}>{item.category}</Text>
   </Card>
-);
+)
 
-export default CategoryItem;
+export default CategoryItem
 
 const styles = StyleSheet.create({
   card: {
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
   text: {
     color: '#ffffff',
   },
-});
+})

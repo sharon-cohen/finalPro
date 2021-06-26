@@ -1,39 +1,48 @@
-import React, { useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View, Button, Dimensions } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import { firebase } from '../../firebase/config';
-import { connect } from 'react-redux';
-import { setPersonData } from '../../redux/product/productActions';
-import Header from '../../components/Header';
-import { getItemIdDocByName } from '../../firebase/CommonQueries';
-const windowHeight = Dimensions.get('window').height;
+import React, { useState } from 'react'
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Button,
+  Dimensions,
+} from 'react-native'
+import * as ImagePicker from 'expo-image-picker'
+import { firebase } from '../../firebase/config'
+import { connect } from 'react-redux'
+import { setPersonData } from '../../redux/product/productActions'
+import Header from '../../components/Header'
+import { getItemIdDocByName } from '../../firebase/CommonQueries'
+import { GenericMessage } from '../../components/GenericMessage'
+const windowHeight = Dimensions.get('window').height
 const mapDispatchToProps = (dispatch) => ({
   setNewProduct: (product) => dispatch(setPersonData(product)),
-});
+})
 const UplodImage = (value) => {
-  console.log(value, 'PROPS');
-  const [imageUrl, setImageUrl] = useState('https://i.imgur.com/TkIrScD.png');
+  const [imageUrl, setImageUrl] = useState('https://i.imgur.com/TkIrScD.png')
   const openImagePickerAsync = async () => {
-    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync()
 
     if (permissionResult.granted === false) {
-      alert('Permission to access camera roll is required!');
-      return;
+      alert('Permission to access camera roll is required!')
+      return
     }
 
-    const pickerResult = await ImagePicker.launchImageLibraryAsync();
+    const pickerResult = await ImagePicker.launchImageLibraryAsync()
     if (!pickerResult.cancelled) {
-      uploadImage(pickerResult.uri);
+      uploadImage(pickerResult.uri)
     }
-  };
+  }
   const uploadImage = async (uri) => {
-    const response = await fetch(uri);
-    const blob = await response.blob();
+    const response = await fetch(uri)
+    const blob = await response.blob()
 
-    const ref = firebase.storage().ref().child(uri);
-    await ref.put(blob);
-    await ref.getDownloadURL().then((url) => setImageUrl(url));
-  };
+    const ref = firebase.storage().ref().child(uri)
+    await ref.put(blob)
+    await ref.getDownloadURL().then((url) => setImageUrl(url))
+  }
   const addFireBaseNewItem = async () => {
     if (imageUrl !== 'https://i.imgur.com/TkIrScD.png') {
       const productObj = {
@@ -45,17 +54,18 @@ const UplodImage = (value) => {
         reg: 0,
         dis: value.route.params.description,
         category: value.route.params.category,
-      };
-      await firebase.firestore().collection('data').add(productObj);
-      const idDoc = await getItemIdDocByName(productObj.name);
+      }
+      await firebase.firestore().collection('data').add(productObj)
+      const idDoc = await getItemIdDocByName(productObj.name)
       await firebase.firestore().collection('data').doc(idDoc).update({
         id: idDoc,
-      });
-      value.setNewProduct(productObj);
-      alert('המוצר נשמר בהצלחה');
-      value.navigation.navigate('HomeStack');
+      })
+      value.setNewProduct(productObj)
+      GenericMessage('המוצר נשמר בהצלחה', ' ')
+      value.navigation.goBack()
+      value.navigation.goBack()
     }
-  };
+  }
 
   return (
     <View style={styles.container}>
@@ -63,29 +73,29 @@ const UplodImage = (value) => {
         <Header navigation={value.navigation} withGoBack={true} />
       </View>
       <View style={styles.imageSection}>
-      <Image source={{ uri: imageUrl }} style={styles.logo} />
-      <TouchableOpacity onPress={openImagePickerAsync} style={styles.button}>
-        <Text style={styles.buttonText}>בחר תמונה</Text>
-      </TouchableOpacity>
+        <Image source={{ uri: imageUrl }} style={styles.logo} />
+        <TouchableOpacity onPress={openImagePickerAsync} style={styles.button}>
+          <Text style={styles.buttonText}>בחר תמונה</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.buttonSubmit}>
         <Button title="פרסם את המוצר" onPress={addFireBaseNewItem} />
       </View>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
   },
-  imageSection:{
+  imageSection: {
     alignItems: 'center',
     justifyContent: 'center',
-    },
+  },
   logo: {
-    marginTop:"10%",
+    marginTop: '10%',
     width: 305,
     height: 200,
     marginBottom: 20,
@@ -98,7 +108,7 @@ const styles = StyleSheet.create({
   },
   headerSection: {
     height: windowHeight * 0.07,
-    marginTop:30,
+    marginTop: 30,
   },
   button: {
     backgroundColor: '#43465e',
@@ -117,5 +127,5 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
   },
-});
-export default connect(null, mapDispatchToProps)(UplodImage);
+})
+export default connect(null, mapDispatchToProps)(UplodImage)

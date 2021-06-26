@@ -65,7 +65,7 @@ const SplashApp = ({navigation,setCurrentUser}) => {
     data==null?<View
             style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
             >
-            <Text>SplashScreen Demo! 👋</Text>
+            <Text>GroupBuy! 👋</Text>
             <Entypo name="rocket" size={30} />
           </View>:data==true?<HomeStackScreen navigation={navigation}/>:<Login navigation={navigation}/>
     );

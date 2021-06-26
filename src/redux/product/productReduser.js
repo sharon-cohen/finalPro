@@ -1,8 +1,9 @@
-import { SET_PERSON_DATA, ADD_PURCHASE } from './productActions';
+import { SET_PERSON_DATA, ADD_PURCHASE } from './productActions'
 
 const initialState = {
   list: [],
-};
+}
+
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_PERSON_DATA: {
@@ -10,37 +11,42 @@ export const reducer = (state = initialState, action) => {
         return {
           ...state,
           list: action.payload,
-        };
+        }
       }
 
-      console.log(action.payload);
-      const temp = state.list;
-      temp.push(action.payload);
+      const temp = state.list
+      for (let i = 0; i < temp.length; i++) {
+        if (temp[i].name === action.payload.name) {
+          return {
+            ...state,
+          }
+        }
+      }
+
+      temp.push(action.payload)
       return {
         ...state,
         list: temp,
-      };
+      }
     }
     case ADD_PURCHASE: {
-      let newList = [];
+      let newList = []
       newList = state.list.map((listItem) => {
-        const updatedListItem = { ...listItem };
-        // 	(action.payload[0].time, 'omer')
-
+        const updatedListItem = { ...listItem }
         if (updatedListItem.name === action.payload) {
-          updatedListItem.reg++;
-          return updatedListItem;
+          updatedListItem.reg++
+          return updatedListItem
         }
 
-        return updatedListItem;
-      });
+        return updatedListItem
+      })
       return {
         ...state,
         list: newList,
-      };
+      }
     }
     default: {
-      return state;
+      return state
     }
   }
-};
+}

@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Button, View, StyleSheet } from 'react-native';
+import * as React from 'react'
+import { Button, View, StyleSheet } from 'react-native'
 const styles = StyleSheet.create({
   bottomView: {
     width: '100%',
@@ -8,9 +8,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
   },
-});
+})
 export const BottonButton = () => (
   <View style={styles.bottomView}>
     <Button title="רכשו עכשיו!" />
   </View>
-);
+)

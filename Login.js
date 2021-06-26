@@ -1,11 +1,12 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text,Alert } from 'react-native';
 import { firebase } from './src/firebase/config';
 import { connect } from 'react-redux';
 import { setUser } from './src/redux/User/userActions';
 const f = firebase;
 import { Container, Form, Input, Item, Button, Label } from 'native-base';
 import { getUserByUID } from './src/firebase/CommonQueries';
+import { GenericMessage } from './src/components/GenericMessage';
 const mapStateToProps = (state) => ({
   currentUser: state.user,
 });
@@ -29,8 +30,8 @@ const Login = ({ navigation, setCurrentUser }) => {
   const signUpUser = (email, password, name) => {
     try {
       if (password.length < 6) {
-        alert('Please enter atleast 6 characters');
-        return;
+        
+        GenericMessage('שגיאה','סיסמא חייבת להכיל לפחות 6 תווים')
       }
       f.auth()
         .createUserWithEmailAndPassword(email, password)
@@ -46,9 +47,9 @@ const Login = ({ navigation, setCurrentUser }) => {
           await f.firestore().collection('users').doc(credentials.user.uid).set(userInRedux);
           navigation.navigate('HomeStack');
         })
-        .catch((error) => console.log(error));
-    } catch (error) {
-      alert(error);
+        .catch((err) => GenericMessage('שגיאה',String(err)));
+    } catch (err) {
+      GenericMessage('שגיאה',String(err))
     }
   };
 
@@ -71,7 +72,8 @@ const Login = ({ navigation, setCurrentUser }) => {
         navigation.navigate('HomeStack');
       })
       .catch((err) => {
-        alert(err);
+        GenericMessage('שגיאה',err)
+
       });
   };
 

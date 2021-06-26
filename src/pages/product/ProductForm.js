@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
   SafeAreaView,
   StyleSheet,
@@ -8,19 +8,21 @@ import {
   Button,
   View,
   Dimensions,
-} from 'react-native';
-import { TitleForm } from './TitleForm';
-import RNPickerSelect from 'react-native-picker-select';
-import Header from '../../components/Header';
-const windowHeight = Dimensions.get('window').height;
+} from 'react-native'
+import { TitleForm } from './TitleForm'
+import RNPickerSelect from 'react-native-picker-select'
+import Header from '../../components/Header'
+import { GenericMessage } from '../../components/GenericMessage'
+import { getNameAlreadyExsist } from '../../firebase/CommonQueries'
+const windowHeight = Dimensions.get('window').height
 export const ProductForm = ({ navigation }) => {
-  const [productName, setProductName] = React.useState(null);
-  const [description, setDescription] = React.useState(null);
-  const [priceBeforeDiscount, setPriceBeforeDiscount] = React.useState(null);
-  const [priceAfterDiscount, setPriceAfterDiscount] = React.useState(null);
-  const [amountOfPeople, setamountOfPeople] = React.useState(null);
-  const [category, setCategory] = React.useState('קניות');
-  const submit = () => {
+  const [productName, setProductName] = React.useState(null)
+  const [description, setDescription] = React.useState(null)
+  const [priceBeforeDiscount, setPriceBeforeDiscount] = React.useState(null)
+  const [priceAfterDiscount, setPriceAfterDiscount] = React.useState(null)
+  const [amountOfPeople, setamountOfPeople] = React.useState(null)
+  const [category, setCategory] = React.useState('קניות')
+  const submit = async () => {
     if (
       productName !== null &&
       description !== null &&
@@ -29,17 +31,23 @@ export const ProductForm = ({ navigation }) => {
       amountOfPeople !== null &&
       category !== null
     ) {
-      const formDetails = {
-        productName,
-        description,
-        priceBeforeDiscount,
-        priceAfterDiscount,
-        amountOfPeople,
-        category,
-      };
-      navigation.navigate('uplodImage', formDetails);
-    } else alert('חובה למלא את כל השדות');
-  };
+      const exsist = await getNameAlreadyExsist(productName)
+      if (exsist) {
+        GenericMessage('שגיאה', 'שם מוצר זה כבר קיים במערכת אנא בחר שם אחר')
+      } else {
+        const formDetails = {
+          productName,
+          description,
+          priceBeforeDiscount,
+          priceAfterDiscount,
+          amountOfPeople,
+          category,
+        }
+
+        navigation.navigate('uplodImage', formDetails)
+      }
+    } else GenericMessage('שגיאה', 'חובה למלא את כל השדות')
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -48,9 +56,17 @@ export const ProductForm = ({ navigation }) => {
       </View>
       <ScrollView style={styles.scrollView}>
         <TitleForm title={'שם המוצר'} />
-        <TextInput style={styles.input} onChangeText={setProductName} value={productName} />
+        <TextInput
+          style={styles.input}
+          onChangeText={setProductName}
+          value={productName}
+        />
         <TitleForm title={'תיאור המוצר'} />
-        <TextInput style={styles.input} onChangeText={setDescription} value={description} />
+        <TextInput
+          style={styles.input}
+          onChangeText={setDescription}
+          value={description}
+        />
         <TitleForm title={'מחיר לפני הנחה'} />
         <TextInput
           style={styles.input}
@@ -92,8 +108,8 @@ export const ProductForm = ({ navigation }) => {
         <Button title="הוספת תמונה" color="#c1071e" onPress={submit} />
       </ScrollView>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -117,4 +133,4 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 12,
   },
-});
+})

@@ -1,43 +1,50 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { SafeAreaView, Text, StyleSheet, View, FlatList, Dimensions } from 'react-native';
-import { SearchBar } from 'react-native-elements';
-import Header from '../../components/Header';
-const windowHeight = Dimensions.get('window').height;
+import React, { useState, useEffect } from 'react'
+import { connect } from 'react-redux'
+import {
+  SafeAreaView,
+  Text,
+  StyleSheet,
+  View,
+  FlatList,
+  Dimensions,
+} from 'react-native'
+import { SearchBar } from 'react-native-elements'
+import Header from '../../components/Header'
+const windowHeight = Dimensions.get('window').height
 
 const mapStateToProps = (state) => ({
   personData: state.listPro.list,
-});
+})
 const SearchPage = ({ personData, navigation }) => {
-  const [search, setSearch] = useState('');
-  const [filteredDataSource, setFilteredDataSource] = useState([]);
-  const [masterDataSource, setMasterDataSource] = useState([]);
+  const [search, setSearch] = useState('')
+  const [filteredDataSource, setFilteredDataSource] = useState([])
+  const [masterDataSource, setMasterDataSource] = useState([])
 
   useEffect(() => {
-    setMasterDataSource(personData);
-  }, []);
+    setMasterDataSource(personData)
+  }, [])
 
   const searchFilterFunction = (text) => {
     if (text) {
       const newData = masterDataSource.filter((item) => {
-        const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase();
-        const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;
-      });
-      setFilteredDataSource(newData);
-      setSearch(text);
+        const itemData = item.name ? item.name.toUpperCase() : ''.toUpperCase()
+        const textData = text.toUpperCase()
+        return itemData.indexOf(textData) > -1
+      })
+      setFilteredDataSource(newData)
+      setSearch(text)
     } else {
-      setFilteredDataSource(masterDataSource);
-      setSearch(text);
+      setFilteredDataSource(masterDataSource)
+      setSearch(text)
     }
-  };
+  }
 
   const ItemView = ({ item }) => (
     <Text style={styles.itemStyle} onPress={() => getItem(item)}>
       {item.name}
       {'.'}
     </Text>
-  );
+  )
 
   const ItemSeparatorView = () => (
     <View
@@ -47,11 +54,11 @@ const SearchPage = ({ personData, navigation }) => {
         backgroundColor: '#C8C8C8',
       }}
     />
-  );
+  )
 
   const getItem = (item) => {
-    navigation.navigate('product', { item });
-  };
+    navigation.navigate('product', { item })
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -75,8 +82,8 @@ const SearchPage = ({ personData, navigation }) => {
         />
       </View>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -88,6 +95,6 @@ const styles = StyleSheet.create({
   headerSection: {
     height: windowHeight * 0.07,
   },
-});
+})
 
-export default connect(mapStateToProps, null)(SearchPage);
+export default connect(mapStateToProps, null)(SearchPage)

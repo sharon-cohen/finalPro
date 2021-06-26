@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
-import { FlatList, View, Text, StyleSheet } from 'react-native';
-import ProductItem from './ProductItem';
+import { FlatList, View, Text, StyleSheet } from 'react-native'
+import ProductItem from './ProductItem'
 
 const ListSection = ({ nameSection, listItems, navigation }) => (
   <View style={styles.productSection}>
@@ -16,15 +16,20 @@ const ListSection = ({ nameSection, listItems, navigation }) => (
         horizontal
         renderItem={({ item }) => (
           <View style={styles.wrapCard}>
-            <ProductItem item={item} isHot={false} isItemsCategory navigation={navigation} />
+            <ProductItem
+              item={item}
+              isHot={false}
+              isItemsCategory
+              navigation={navigation}
+            />
           </View>
         )}
       />
     </View>
   </View>
-);
+)
 
-export default ListSection;
+export default ListSection
 const styles = StyleSheet.create({
   productSection: {
     height: '100%',
@@ -40,4 +45,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#dedede',
   },
   wrapCard: {},
-});
+})

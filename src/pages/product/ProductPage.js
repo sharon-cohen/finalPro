@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import {
   Image,
   Dimensions,
@@ -11,26 +11,27 @@ import {
   SafeAreaView,
   ScrollView,
   StatusBar,
-} from 'react-native';
-import { NameAndPrice } from '../../components/NameAndPrice';
-import { firebase } from '../../firebase/config';
-import { getItemIdDocByName } from '../../firebase/CommonQueries';
-import { setUser } from '../../redux/User/userActions';
-import { addProduct } from '../../redux/RealTimeBuyProduct/RealTimeBuyProductAction';
-import { addPurchase } from '../../redux/product/productActions';
-import Header from '../../components/Header';
-const windowHeight = Dimensions.get('window').height;
-const windowWidth = Dimensions.get('window').width;
+} from 'react-native'
+import { NameAndPrice } from '../../components/NameAndPrice'
+import { firebase } from '../../firebase/config'
+import { getItemIdDocByName } from '../../firebase/CommonQueries'
+import { setUser } from '../../redux/User/userActions'
+import { addProduct } from '../../redux/RealTimeBuyProduct/RealTimeBuyProductAction'
+import { addPurchase } from '../../redux/product/productActions'
+import Header from '../../components/Header'
+import { GenericMessage } from '../../components/GenericMessage'
+const windowHeight = Dimensions.get('window').height
+const windowWidth = Dimensions.get('window').width
 const mapStateToProps = (state) => ({
   currentUser: state.user,
   realTimePersonalList: state.realTimeList.list,
-});
+})
 
 const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: (user) => dispatch(setUser(user)),
   addItemToUser: (product) => dispatch(addProduct(product)),
   addOnePurchase: (nameProduct) => dispatch(addPurchase(nameProduct)),
-});
+})
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
   },
-});
+})
 const ProductPage = ({
   route,
   navigation,
@@ -70,12 +71,12 @@ const ProductPage = ({
   addOnePurchase,
   realTimePersonalList,
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const upateRegItem = async () => {
-    addItemToUser(route.params.item);
-    setIsLoading(true);
-    const id = await getItemIdDocByName(route.params.item.name);
+    addItemToUser(route.params.item)
+    setIsLoading(true)
+    const id = await getItemIdDocByName(route.params.item.name)
 
     await firebase
       .firestore()
@@ -83,27 +84,29 @@ const ProductPage = ({
       .doc(id)
       .update({
         reg: route.params.item.reg + 1,
-      });
-    const ref = await firebase.firestore().collection('users').doc(currentUser.user.uid);
+      })
+    const ref = await firebase
+      .firestore()
+      .collection('users')
+      .doc(currentUser.user.uid)
 
     await ref.update({
       myItems: firebase.firestore.FieldValue.arrayUnion(id),
-    });
-    addOnePurchase(route.params.item.name);
-    setIsLoading(false);
+    })
+    addOnePurchase(route.params.item.name)
+    setIsLoading(false)
 
-    alert('finish');
-  };
+    GenericMessage('הפעולה בוצעה בהצלחה', ' ')
+  }
   const checkIsAlreadyBeenPurchased = () => {
     if (realTimePersonalList.length === 0) {
-      return true;
+      return true
     }
     for (let i = 0; i < realTimePersonalList.length; i++) {
-      if (realTimePersonalList[i].name === route.params.item.name) return false;
+      if (realTimePersonalList[i].name === route.params.item.name) return false
     }
-    return true;
-  };
-  // console.log(route,"root")
+    return true
+  }
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -138,6 +141,6 @@ const ProductPage = ({
         ) : null}
       </ScrollView>
     </SafeAreaView>
-  );
-};
-export default connect(mapStateToProps, mapDispatchToProps)(ProductPage);
+  )
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ProductPage)

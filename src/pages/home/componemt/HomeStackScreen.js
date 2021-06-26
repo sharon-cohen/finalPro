@@ -1,11 +1,10 @@
-import React from 'react';
-import HomePage from '../HomePage';
-
-import SearchPage from './../../search/SearchPage';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import ProfilePage from './../../profile/ProfilePage';
-const Tab = createMaterialBottomTabNavigator();
+import React from 'react'
+import HomePage from '../HomePage'
+import SearchPage from './../../search/SearchPage'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
+import ProfilePage from './../../profile/ProfilePage'
+const Tab = createMaterialBottomTabNavigator()
 function MyTabs() {
   return (
     <Tab.Navigator barStyle={{ backgroundColor: '#c1071e' }}>
@@ -14,7 +13,9 @@ function MyTabs() {
         component={HomePage}
         options={{
           tabBarLabel: 'Home',
-          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="home" color={color} size={26} />,
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="home" color={color} size={26} />
+          ),
         }}
       />
 
@@ -35,14 +36,18 @@ function MyTabs() {
           tabBarVisible: true,
           tabBarLabel: 'Search',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="card-search" color={color} size={26} />
+            <MaterialCommunityIcons
+              name="card-search"
+              color={color}
+              size={26}
+            />
           ),
         }}
       />
     </Tab.Navigator>
-  );
+  )
 }
 
 export function HomeStackScreen() {
-  return <MyTabs />;
+  return <MyTabs />
 }

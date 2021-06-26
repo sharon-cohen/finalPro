@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import * as React from 'react'
+import { Text, View, StyleSheet } from 'react-native'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 const styles = StyleSheet.create({
   container: {
     height: '100%',
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   text: {
     color: '#ffffff',
   },
-});
+})
 export const NumberPurchases = ({ item }) => (
   <View style={styles.container}>
     <MaterialCommunityIcons name="account-plus" size={20} color="#ffffff" />
@@ -21,4 +21,4 @@ export const NumberPurchases = ({ item }) => (
     <MaterialCommunityIcons name="target-account" size={20} color="#ffffff" />
     <Text style={styles.text}>{item.goal} </Text>
   </View>
-);
+)
