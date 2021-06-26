@@ -3,15 +3,13 @@ import {  Dimensions ,View,ScrollView, Text, FlatList, StyleSheet,TouchableOpaci
 import PropTypes from 'prop-types';
 import ListItemsCategory from './componemt/ListItemsCategory';
 import { connect } from 'react-redux';
-import { watchPersonData } from '../../redux/product/productActions';
-import { initdata } from '../../redux/product/productActions';
 import { selectedCategory } from '../../redux/category/categoryActions';
 import Header from '../../components/Header' 
 import CategoryItem from './componemt/CategoryItem';
 import ProductItem from './componemt/ProductItem';
 import { listItemSection,listItemCategory } from './static/ListSectionItem';
 import ListSection from './componemt/ListSection';
-
+import { initdata } from '../../redux/product/productActions';
   const windowHeight = Dimensions.get('window').height;
 
   const styles = StyleSheet.create({
@@ -19,15 +17,14 @@ import ListSection from './componemt/ListSection';
 	 
 		flex: 1,
 		
-		backgroundColor: '#F5FCFF',
+		backgroundColor: '#ffffff',
 	},
 	headerSection:{
-		height:windowHeight*0.09,
-		marginTop:15
+		height:windowHeight*0.07,
 	},
 	categorySection:{
 		height:windowHeight*0.12,
-		backgroundColor:"blue",
+		backgroundColor:"#ffffff",
 		
 
 	},
@@ -37,17 +34,17 @@ import ListSection from './componemt/ListSection';
 	hotSection:{
 		height:windowHeight*0.4,
 		
-		backgroundColor:"pink",
+
 		
 		margin: 10,
 	},
 	titleList:{
 		height:"15%",
-		backgroundColor:"red",
+		
 	},
 	productSection:{
 		height:windowHeight*0.4,
-		backgroundColor:"gray",
+		backgroundColor:"#ffffff",
 		margin: 10,
 		
 	},
@@ -70,34 +67,62 @@ import ListSection from './componemt/ListSection';
 
 const mapDispatchToProps = (dispatch) => {
   return { 
-    watchPersonData: () => dispatch(watchPersonData()),
-	initdata:()=>dispatch(initdata()),
+	initdataStart:()=>dispatch(initdata()),
 	setCategory:(setCategoryName)=>dispatch(selectedCategory(setCategoryName))
 };
 }
 
- const HomePage = ({watchPersonData,personData,initdata,setCategory,theCategory,navigation}) => {
+ const HomePage = ({personData,initdataStart,setCategory,theCategory,navigation}) => {
 	const [hotItem, setHotItem] = useState(null);
 	const [filterCategory,setFilterCategory]=useState([])
-	useEffect(() => {
-		watchPersonData()
-		personData.sort(function(a, b) {
-			return parseFloat(b.reg) - parseFloat(a.reg);
-		});
-		
-		getListItemByCtegory()
-	  }, [theCategory]);
+	
 	  useEffect(() => {
-		
-	   personData.sort(function(a, b) {
-		   return parseFloat(b.reg) - parseFloat(a.reg);
-	   });
+		initdataStart()
 	   
 	  
 	 }, []);
 	
 	  
-	  const getListItemByCtegory=()=>{
+	const getItemSection=(nameSection)=>{
+		if(nameSection=='מומלצים'){
+			
+			if (personData.length < 5){
+				return personData
+			}
+			else{
+				const sort =personData.sort(function(a, b) {
+					return parseFloat(b.reg) - parseFloat(a.reg);
+				});
+				const rec =sort.slice(0, 4)
+				return rec
+			}
+			
+		}
+
+		if (nameSection=='דילים מלאים'){
+			let full=[]
+			for (let i=0 ;i<personData.length;i++){
+				if (Number(personData[i].reg)>=Number(personData[i].goal)){
+					full.push(personData[i])
+				}
+			}
+		return full
+		}
+	
+	if(nameSection=='הבטיחו את מקומכם'){
+		let miss=[]
+		for (let i=0 ;i<personData.length;i++){
+			if (Number(personData[i].reg)<Number(personData[i].goal)){
+				miss.push(personData[i])
+			}
+		}
+	return miss
+	}
+	else {
+		return personData
+	}
+	}
+	 const getListItemByCtegory=()=>{
 	
 		let itemsCategory=[]
 		
@@ -121,13 +146,13 @@ const mapDispatchToProps = (dispatch) => {
 		}
 		setHotItem(mostRecomment)
 	}
-
+	console.log("sharon",personData)
 	return(
 	<ScrollView style={styles.MainContainer}>
 
 	  <SafeAreaView style={styles.MainContainer}>
 	  <View style={styles.headerSection} >
-	  <Header navigation={navigation}/>
+	  <Header navigation={navigation} withGoBack={false}/>
 	  </View> 
 	  <View style={styles.categorySection} >
 	  <FlatList style={styles.listCategoryStyle}
@@ -147,7 +172,7 @@ const mapDispatchToProps = (dispatch) => {
           />
 	  </View>
 	  {hotItem==null ?
-	 <Text>dfdfd</Text>:<View style={styles.hotSection} >
+	null:<View style={styles.hotSection} >
 	 
 	 <ProductItem item={hotItem} isHot={true} isItemsCategory={false}/>
 	 </View> 
@@ -155,8 +180,9 @@ const mapDispatchToProps = (dispatch) => {
 	  
 	  {theCategory=="מומלצים" ? 
 	  listItemSection.map((sec) =>
-              <View style={styles.productSection} key={sec.sectionName}>
-                <ListSection nameSection={sec.sectionName} listItems={personData} navigation={navigation}/>
+              
+			  <View style={styles.productSection} key={sec.sectionName}>
+                <ListSection nameSection={sec.sectionName} listItems={getItemSection(sec.sectionName)} navigation={navigation}/>
               </View>) : 
 			 
 			  <View style={styles.itemsCategory}>
@@ -183,3 +209,7 @@ const mapDispatchToProps = (dispatch) => {
 	  mapStateToProps,
 	  mapDispatchToProps
 	)(HomePage )
+	  
+
+  
+	

@@ -1,75 +1,79 @@
-import React from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View,Button } from 'react-native';
+import React, { useState } from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View, Button, Dimensions } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { firebase } from '../../firebase/config';
-import { useState } from 'react';
 
-export  function UplodImage(value) {
-	
-	const [imageUrl, setImageUrl] = useState('https://i.imgur.com/TkIrScD.png');
-	let openImagePickerAsync = async () => {
-	
-	let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+import { connect } from 'react-redux';
+import { setPersonData } from '../../redux/product/productActions';
+import Header from '../../components/Header';
+import { getItemIdDocByName } from '../../firebase/CommonQueries';
+const windowHeight = Dimensions.get('window').height;
+const mapDispatchToProps = (dispatch) => ({
+  setNewProduct: (product) => dispatch(setPersonData(product)),
+});
+const UplodImage = (value) => {
+  console.log(value, 'PROPS');
+  const [imageUrl, setImageUrl] = useState('https://i.imgur.com/TkIrScD.png');
+  const openImagePickerAsync = async () => {
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if (permissionResult.granted === false) {
       alert('Permission to access camera roll is required!');
       return;
     }
 
-    let pickerResult = await ImagePicker.launchImageLibraryAsync();
+    const pickerResult = await ImagePicker.launchImageLibraryAsync();
     if (!pickerResult.cancelled) {
-    
-     uploadImage(pickerResult.uri);
+      uploadImage(pickerResult.uri);
     }
   };
-  const uploadImage = async(uri) => {
-    
-	const response = await fetch(uri);
+  const uploadImage = async (uri) => {
+    const response = await fetch(uri);
     const blob = await response.blob();
 
-	var ref = firebase.storage().ref().child(uri);
-    await ref.put(blob)
-	await ref.getDownloadURL().then((url) => setImageUrl(url))
-	
+    const ref = firebase.storage().ref().child(uri);
+    await ref.put(blob);
+    await ref.getDownloadURL().then((url) => setImageUrl(url));
+  };
+  const addFireBaseNewItem = async () => {
+    if (imageUrl != 'https://i.imgur.com/TkIrScD.png') {
+      const productObj = {
+        name: value.route.params.productName,
+        goal: value.route.params.amountOfPeople,
+        image: imageUrl,
+        newPrice: value.route.params.priceAfterDiscount,
+        oldPrice: value.route.params.priceBeforeDiscount,
+        reg: 0,
+        dis: value.route.params.description,
+        category: value.route.params.category,
+      };
+      await firebase.firestore().collection('data').add(productObj);
+      const idDoc = await getItemIdDocByName(productObj.name);
+      await firebase.firestore().collection('data').doc(idDoc).update({
+        id: idDoc,
+      });
+      value.setNewProduct(productObj);
+      alert('המוצר נשמר בהצלחה');
+      value.navigation.navigate('HomeStack');
+    }
+  };
 
-  }
- const addFireBaseNewItem = async()=>{
-	if (imageUrl !='https://i.imgur.com/TkIrScD.png')
-	{
-		
-		await firebase.firestore().collection('data').add({
-			name:value.route.params["productName"],
-			goal:value.route.params["amountOfPeople"],
-			image:imageUrl,
-			newPrice:value.route.params["priceAfterDiscount"],
-			oldPrice:value.route.params["priceBeforeDiscount"],
-			reg:0,
-			category:value.route.params["category"],
-		  })
-	alert('המוצר נשמר בהצלחה')
-	value.navigation.navigate("HomeStack")
-}	
- }
- 
- 
-console.log(value.route.params)
   return (
     <View style={styles.container}>
+      <View style={styles.headerSection}>
+        <Header navigation={value.navigation} withGoBack />
+      </View>
       <Image source={{ uri: imageUrl }} style={styles.logo} />
-      <Text style={styles.instructions}>
-        To share a photo from your phone with a friend, just press the button below!
-      </Text>
 
       <TouchableOpacity onPress={openImagePickerAsync} style={styles.button}>
-        <Text style={styles.buttonText}>Pick a photo</Text>
+        <Text style={styles.buttonText}>בחר תמונה</Text>
       </TouchableOpacity>
-	  <View style={styles.buttonSubmit}>
-      <Button  title='פרסם את המוצר' onPress={addFireBaseNewItem}  />
-    </View>
-	
+      <View style={styles.buttonSubmit}>
+        <Button title="פרסם את המוצר" onPress={addFireBaseNewItem} />
+      </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -89,6 +93,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     marginBottom: 10,
   },
+  headerSection: {
+    height: windowHeight * 0.07,
+  },
   button: {
     backgroundColor: 'blue',
     padding: 20,
@@ -99,11 +106,12 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   buttonSubmit: {
-	backgroundColor:'green',
-	width: '100%',
-	height: 50,
-	justifyContent: 'flex-end',
-	position: 'absolute',
-	bottom: 0,
+    backgroundColor: 'green',
+    width: '100%',
+    height: 50,
+    justifyContent: 'flex-end',
+    position: 'absolute',
+    bottom: 0,
   },
 });
+export default connect(null, mapDispatchToProps)(UplodImage);

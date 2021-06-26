@@ -9,11 +9,8 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
 });
-export const BottonButton = () => {
-
-  return (
-    <View style={styles.bottomView}>
-      <Button  title='רכשו עכשיו!' />
-    </View>
-  );
-};
+export const BottonButton = () => (
+  <View style={styles.bottomView}>
+    <Button title="רכשו עכשיו!" />
+  </View>
+);

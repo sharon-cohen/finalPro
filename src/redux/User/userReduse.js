@@ -1,20 +1,18 @@
-import { SET_USER } from "./userActions";
+import { SET_USER } from './userActions';
+
 const initialState = {
-  user:{}
+  user: {},
 };
 export const userReduse = (state = initialState, action) => {
-	switch (action.type) {
-		case SET_USER:
-		
-		return {
-		  ...state,
-		  user: action.payload,
-		};
-		default:
-		
-		{
-			
-            return state;
-		} 
-	}
-	};
+  switch (action.type) {
+    case SET_USER:
+      return {
+        ...state,
+        user: action.payload,
+      };
+
+    default: {
+      return state;
+    }
+  }
+};

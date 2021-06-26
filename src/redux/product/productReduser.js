@@ -1,60 +1,46 @@
-import  {SET_PERSON_DATA} from "./productActions";
-import { firebase } from '../../firebase/config'
+import { SET_PERSON_DATA, ADD_PURCHASE } from './productActions';
 
 const initialState = {
-    list: [
-		
-	],
+  list: [],
 };
 export const reducer = (state = initialState, action) => {
-    switch(action.type) {
-      
-        case SET_PERSON_DATA:
-		// og(typeof(action.payload))
-	
-		let updatedList=[]	
-		if (state.list.length === 0){
-			updatedList = action.payload
-		}	
-		else{
-			updatedList = state.list.map((listItem) => {
-				
-			let updatedListItem = { ...listItem };
-				// 	(action.payload[0].time, 'omer')
-				
-			if (updatedListItem.name === action.payload[0].name ) {
-				
-				updatedListItem = action.payload[0];
-			  return updatedListItem;
-			}
-			
-			return updatedListItem;
-		  });
-		}
-		
+  switch (action.type) {
+    case SET_PERSON_DATA:
+      if (Array.isArray(action.payload)) {
+        return {
+          ...state,
+          list: action.payload,
+        };
+      }
 
-		// const updatedList = state.list.map(listItem=>{
-			// 	const updatedListItem = {...listItem}
-			// 	if(updatedListItem.id === action.payload.id){
-			// 		updatedListItem = action.payload
-			// 		return updatedListItem
-	
-			// 	}
-			// 		updatedListItem.isOn=false
-			// 		return updatedListItem
-			// })
+      console.log(action.payload);
+      const temp = state.list;
+      temp.push(action.payload);
+      return {
+        ...state,
+        list: temp,
+      };
 
+    case ADD_PURCHASE:
+      let newList = [];
+      newList = state.list.map((listItem) => {
+        const updatedListItem = { ...listItem };
+        // 	(action.payload[0].time, 'omer')
 
-	
-		return {
-				...state,
-				list: updatedList,
-			  };
+        if (updatedListItem.name === action.payload) {
+          updatedListItem.reg++;
+          return updatedListItem;
+        }
 
-        default:{
-			
-            return state;
-		} 
-			
+        return updatedListItem;
+      });
+      return {
+        ...state,
+        list: newList,
+      };
+
+    default: {
+      return state;
     }
+  }
 };
