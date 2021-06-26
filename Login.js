@@ -38,7 +38,7 @@ const Login = ({ navigation, setCurrentUser }) => {
           const userInRedux = {
             email: credentials.user.email,
             uid: credentials.user.uid,
-            name,
+            name:name,
             isManager: false,
           };
 
@@ -48,7 +48,7 @@ const Login = ({ navigation, setCurrentUser }) => {
         })
         .catch((error) => console.log(error));
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
 

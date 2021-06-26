@@ -37,11 +37,6 @@ const Header = ({navigation,currentUser,withGoBack}) => {
     </View>:<View
     style={styles.containerRegularUser}
     >
-      <Button
-          onPress={() => navigation.navigate('productForm')}
-          title="פרסם מוצר חדש"
-          color="black"
-        />  
        <Text style={styles.text} >GroupBuy</Text>	
     </View>:null
   );
