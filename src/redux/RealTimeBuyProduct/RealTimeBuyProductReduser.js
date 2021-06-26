@@ -6,7 +6,7 @@ const initialState = {
 };
 export const RealTimeBuyProductReduser = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_PRODUCT:
+    case ADD_PRODUCT: {
       let join = 0;
       let redy = 0;
       if (Array.isArray(action.payload)) {
@@ -28,6 +28,7 @@ export const RealTimeBuyProductReduser = (state = initialState, action) => {
         countJoin: join,
         countReady: redy,
       };
+    }
     default: {
       return state;
     }

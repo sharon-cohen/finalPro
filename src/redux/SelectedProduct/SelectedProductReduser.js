@@ -4,11 +4,12 @@ const initialState = {
 };
 export const ProductReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SELECTED_PRODUCT:
+    case SELECTED_PRODUCT: {
       return {
         ...state,
         category: action.payload,
       };
+    }
     default: {
       return state;
     }

@@ -37,11 +37,6 @@ const styles = StyleSheet.create({
     paddingTop: StatusBar.currentHeight,
   },
 
-  MainContainer: {
-    flex: 1,
-    marginTop: 5,
-    backgroundColor: '#ffffff',
-  },
   imageSection: {
     height: windowWidth * (3 / 4),
   },
@@ -100,11 +95,11 @@ const ProductPage = ({
     alert('finish');
   };
   const checkIsAlreadyBeenPurchased = () => {
-    if (realTimePersonalList.length == 0) {
+    if (realTimePersonalList.length === 0) {
       return true;
     }
     for (let i = 0; i < realTimePersonalList.length; i++) {
-      if (realTimePersonalList[i].name == route.params.item.name) return false;
+      if (realTimePersonalList[i].name === route.params.item.name) return false;
     }
     return true;
   };

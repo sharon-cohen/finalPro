@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View, Button, Dimensions } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { firebase } from '../../firebase/config';
-
 import { connect } from 'react-redux';
 import { setPersonData } from '../../redux/product/productActions';
 import Header from '../../components/Header';
@@ -36,7 +35,7 @@ const UplodImage = (value) => {
     await ref.getDownloadURL().then((url) => setImageUrl(url));
   };
   const addFireBaseNewItem = async () => {
-    if (imageUrl != 'https://i.imgur.com/TkIrScD.png') {
+    if (imageUrl !== 'https://i.imgur.com/TkIrScD.png') {
       const productObj = {
         name: value.route.params.productName,
         goal: value.route.params.amountOfPeople,
@@ -61,13 +60,14 @@ const UplodImage = (value) => {
   return (
     <View style={styles.container}>
       <View style={styles.headerSection}>
-        <Header navigation={value.navigation} withGoBack />
+        <Header navigation={value.navigation} withGoBack={true} />
       </View>
+      <View style={styles.imageSection}>
       <Image source={{ uri: imageUrl }} style={styles.logo} />
-
       <TouchableOpacity onPress={openImagePickerAsync} style={styles.button}>
         <Text style={styles.buttonText}>בחר תמונה</Text>
       </TouchableOpacity>
+      </View>
       <View style={styles.buttonSubmit}>
         <Button title="פרסם את המוצר" onPress={addFireBaseNewItem} />
       </View>
@@ -79,12 +79,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  imageSection:{
     alignItems: 'center',
     justifyContent: 'center',
-  },
+    },
   logo: {
+    marginTop:"10%",
     width: 305,
-    height: 159,
+    height: 200,
     marginBottom: 20,
   },
   instructions: {
@@ -95,9 +98,10 @@ const styles = StyleSheet.create({
   },
   headerSection: {
     height: windowHeight * 0.07,
+    marginTop:30,
   },
   button: {
-    backgroundColor: 'blue',
+    backgroundColor: '#43465e',
     padding: 20,
     borderRadius: 5,
   },
@@ -106,7 +110,7 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   buttonSubmit: {
-    backgroundColor: 'green',
+    backgroundColor: '#c1071e',
     width: '100%',
     height: 50,
     justifyContent: 'flex-end',

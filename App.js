@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, I18nManager } from 'react-native';
+import { I18nManager } from 'react-native';
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
 import { NavigationContainer } from '@react-navigation/native';
@@ -54,15 +54,3 @@ export default function App() {
     </Provider>
   );
 }
-const styles = StyleSheet.create({
-  header: {
-    backgroundColor: '#ff7700',
-    height: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  headerText: { marginTop: 30, fontSize: 20, fontWeight: 'bold' },
-  container: {
-    flex: 1,
-  },
-});

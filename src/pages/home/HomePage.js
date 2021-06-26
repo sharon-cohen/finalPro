@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {  Dimensions ,View,ScrollView, Text, FlatList, StyleSheet,TouchableOpacity,SafeAreaView} from 'react-native';
+import {  Dimensions ,View,ScrollView, FlatList,Text, StyleSheet,TouchableOpacity,SafeAreaView} from 'react-native';
 import PropTypes from 'prop-types';
 import ListItemsCategory from './componemt/ListItemsCategory';
 import { connect } from 'react-redux';
@@ -75,7 +75,9 @@ const mapDispatchToProps = (dispatch) => {
  const HomePage = ({personData,initdataStart,setCategory,theCategory,navigation}) => {
 	const [hotItem, setHotItem] = useState(null);
 	const [filterCategory,setFilterCategory]=useState([])
-	
+	useEffect(() => {
+		getListItemByCtegory()
+	  }, [theCategory]);
 	  useEffect(() => {
 		initdataStart()
 	   
@@ -84,7 +86,7 @@ const mapDispatchToProps = (dispatch) => {
 	
 	  
 	const getItemSection=(nameSection)=>{
-		if(nameSection=='מומלצים'){
+		if(nameSection==='מומלצים'){
 			
 			if (personData.length < 5){
 				return personData
@@ -99,7 +101,7 @@ const mapDispatchToProps = (dispatch) => {
 			
 		}
 
-		if (nameSection=='דילים מלאים'){
+		if (nameSection==='דילים מלאים'){
 			let full=[]
 			for (let i=0 ;i<personData.length;i++){
 				if (Number(personData[i].reg)>=Number(personData[i].goal)){
@@ -109,7 +111,7 @@ const mapDispatchToProps = (dispatch) => {
 		return full
 		}
 	
-	if(nameSection=='הבטיחו את מקומכם'){
+	if(nameSection==='הבטיחו את מקומכם'){
 		let miss=[]
 		for (let i=0 ;i<personData.length;i++){
 			if (Number(personData[i].reg)<Number(personData[i].goal)){
@@ -130,7 +132,7 @@ const mapDispatchToProps = (dispatch) => {
 		for (let i = 0, l = personData.length; i < l; i++) {
 			
 			
-			if(theCategory==personData[i].category){
+			if(theCategory===personData[i].category){
 				itemsCategory.push(personData[i])
 			}
 		
@@ -171,8 +173,7 @@ const mapDispatchToProps = (dispatch) => {
             )}
           />
 	  </View>
-	  {hotItem==null ?
-	null:<View style={styles.hotSection} >
+	  {hotItem==null ? <></> : <View style={styles.hotSection} >
 	 
 	 <ProductItem item={hotItem} isHot={true} isItemsCategory={false}/>
 	 </View> 

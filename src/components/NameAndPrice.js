@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View } from 'react-native';
 import { NumberPurchases } from '../pages/home/componemt/NumberPurchases';
 export const NameAndPrice = ({ item }) => (
   <View style={{ height: '100%' }}>

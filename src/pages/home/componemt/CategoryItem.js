@@ -12,10 +12,6 @@ const CategoryItem = ({ item }) => (
 export default CategoryItem;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 22,
-  },
   card: {
     backgroundColor: '#43465e',
     padding: 30,

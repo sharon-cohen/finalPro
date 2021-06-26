@@ -4,10 +4,13 @@
       "jest": true
     },
     "parserOptions": {
-      "ecmaFeatures": {
-        "jsx": true
-      }
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
     },
+    
     "settings": {
       "react": {
         "version": "16"

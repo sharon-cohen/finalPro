@@ -63,7 +63,7 @@ const SearchPage = ({ personData, navigation }) => {
           round
           searchIcon={{ size: 24 }}
           onChangeText={(text) => searchFilterFunction(text)}
-          onClear={(text) => searchFilterFunction('')}
+          onClear={() => searchFilterFunction('')}
           placeholder="Type Here..."
           value={search}
         />

@@ -21,7 +21,7 @@ const Login = ({ navigation, setCurrentUser }) => {
 
   useEffect(() => {
     f.auth().onAuthStateChanged((user) => {
-      if (user != null) {
+      if (user !== null) {
       }
     });
   }, []);
@@ -35,11 +35,6 @@ const Login = ({ navigation, setCurrentUser }) => {
       f.auth()
         .createUserWithEmailAndPassword(email, password)
         .then(async (credentials) => {
-          const user = {
-            email: credentials.user.email,
-            name,
-          };
-
           const userInRedux = {
             email: credentials.user.email,
             uid: credentials.user.uid,
@@ -78,14 +73,6 @@ const Login = ({ navigation, setCurrentUser }) => {
       .catch((err) => {
         alert(err);
       });
-  };
-
-  const signOutUser = async () => {
-    try {
-      await f.auth().signOut();
-    } catch (e) {
-      console.log(e);
-    }
   };
 
   return (

@@ -5,7 +5,7 @@ const initialState = {
 };
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_PERSON_DATA:
+    case SET_PERSON_DATA: {
       if (Array.isArray(action.payload)) {
         return {
           ...state,
@@ -20,8 +20,8 @@ export const reducer = (state = initialState, action) => {
         ...state,
         list: temp,
       };
-
-    case ADD_PURCHASE:
+    }
+    case ADD_PURCHASE: {
       let newList = [];
       newList = state.list.map((listItem) => {
         const updatedListItem = { ...listItem };
@@ -38,7 +38,7 @@ export const reducer = (state = initialState, action) => {
         ...state,
         list: newList,
       };
-
+    }
     default: {
       return state;
     }

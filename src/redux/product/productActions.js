@@ -5,7 +5,6 @@ export const ADD_PURCHASE = 'ADD_PURCHASE';
 import { firebase } from '../../firebase/config';
 
 export const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-const f = firebase;
 export const setPersonData = (personData) => ({
   type: SET_PERSON_DATA,
   payload: personData,

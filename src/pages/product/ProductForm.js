@@ -22,12 +22,12 @@ export const ProductForm = ({ navigation }) => {
   const [category, setCategory] = React.useState('קניות');
   const submit = () => {
     if (
-      productName != null &&
-      description != null &&
-      priceBeforeDiscount != null &&
-      priceAfterDiscount != null &&
-      amountOfPeople != null &&
-      category != null
+      productName !== null &&
+      description !== null &&
+      priceBeforeDiscount !== null &&
+      priceAfterDiscount !== null &&
+      amountOfPeople !== null &&
+      category !== null
     ) {
       const formDetails = {
         productName,
@@ -89,7 +89,7 @@ export const ProductForm = ({ navigation }) => {
             ]}
           />
         </View>
-        <Button title="הוספת תמונה" color="#f194ff" onPress={submit} />
+        <Button title="הוספת תמונה" color="#c1071e" onPress={submit} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -115,7 +115,6 @@ const styles = StyleSheet.create({
   },
   picker: {
     height: 40,
-
     margin: 12,
   },
 });
